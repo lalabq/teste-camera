@@ -6,25 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teste câmera</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <style>
+        #video, #canvas {
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
 </head>
 <body>
-    <video id='video'></video>
+    <video id='video' playsinline muted></video>
     <canvas id='canvas'></canvas>
     <button id='capture'>Capturar</button>
 </body>
 </html>
 <script>
-    navigator.mediaDevices.getUserMedia({video: true}).then(function (mediaStream) {
-        const video = document.querySelector('#video');
-        video.srcObject = mediaStream;
-        video.play();
-    });
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then(function (mediaStream) {
+            const video = document.querySelector('#video');
+            video.srcObject = mediaStream;
+            video.play();
+        });
 
-    document.querySelector('#capture').addEventListener('click', function (e) {
+    $("#capture").on("click", function (e) {
         var canvas = document.querySelector("#canvas");  
         canvas.height = video.videoHeight;
         canvas.width = video.videoWidth;
         var context = canvas.getContext('2d');
         context.drawImage(video, 0, 0)
-    })
+    });
 </script>
