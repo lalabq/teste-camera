@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste câmera</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+    <video id='video'></video>
+    <canvas id='canvas'></canvas>
+    <button id='capture'>Capturar</button>
+</body>
+</html>
+<script>
+    navigator.mediaDevices.getUserMedia({video: true}).then(function (mediaStream) {
+        const video = document.querySelector('#video');
+        video.srcObject = mediaStream;
+        video.play();
+    });
+
+    document.querySelector('#capture').addEventListener('click', function (e) {
+        var canvas = document.querySelector("#canvas");  
+        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth;
+        var context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0)
+    })
+</script>
